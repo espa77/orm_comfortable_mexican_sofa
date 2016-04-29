@@ -2,7 +2,7 @@
 
 ComfortableMexicanSofa.configure do |config|
   # Title of the admin area
-  #   config.cms_title = 'ComfortableMexicanSofa CMS Engine'
+  config.cms_title = 'OrphMedia CMS Engine v 0.5'
 
   # Controller that is inherited from CmsAdmin::BaseController
   #   config.base_controller = 'ApplicationController'
@@ -35,7 +35,39 @@ ComfortableMexicanSofa.configure do |config|
   # http://rdoc.info/gems/paperclip/2.3.8/Paperclip/Storage/S3, and for
   # filesystem see: http://rdoc.info/gems/paperclip/2.3.8/Paperclip/Storage/Filesystem
   # If you are using S3 and HTTPS, pass :s3_protocol => '' to have URLs that use the protocol of the page
-  #   config.upload_file_options = {:url => '/system/:class/:id/:attachment/:style/:filename'}
+    config.upload_file_options = {
+      :whiny => false,
+      # :validates_attachment_content_type => {'image/png','image/jpg','image/gif'},
+      :storage => :s3,
+      :s3_credentials => {"access_key_id" => ENV["S3_ACCESS_KEY_ID"], "secret_access_key" => ENV["S3_SECRET_ACCESS_KEY"]},
+      :bucket => ENV["S3_BUCKET_NAME"],
+      :s3_region => ENV["S3_REGION"],
+      :path => "uploaded_files/:style/:basename.:extension",
+      :url => '/system/:class/:id/:attachment/:style/:filename',
+      :styles => {
+        :thumb => {
+          :geometry => '100x100>',
+          :quality => 80
+        },
+        :small => {
+          :geometry => '250x250<',
+          :quality => 80
+        },
+        :medium => {
+          :geometry => '500x500<',
+          :quality => 80
+        },
+        :large => {
+          :geometry => '850x850<',
+          :quality => 80
+        },
+        :xl => {
+          :geometry => '1280x900<',
+          :quality => 80
+        }
+      }
+    }
+
 
   # Sofa allows you to setup entire site from files. Database is updated with each
   # request (if necessary). Please note that database entries are destroyed if there's
@@ -60,7 +92,7 @@ ComfortableMexicanSofa.configure do |config|
   # Content for Layouts, Pages and Snippets has a revision history. You can revert
   # a previous version using this system. You can control how many revisions per
   # object you want to keep. Set it to 0 if you wish to turn this feature off.
-  #   config.revisions_limit = 25
+    config.revisions_limit = 10
 
   # Locale definitions. If you want to define your own locale merge
   # {:locale => 'Locale Title'} with this.
@@ -95,7 +127,7 @@ ComfortableMexicanSofa.configure do |config|
 
   # Reveal partials that can be overwritten in the admin area.
   # Default is false.
-  #   config.reveal_cms_partials = false
+    # config.reveal_cms_partials = true
 
 end
 

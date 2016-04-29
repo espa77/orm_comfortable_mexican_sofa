@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'pry'
+
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
@@ -34,6 +36,11 @@ gem 'will_paginate', '~> 3.0.6'
 
 # Upload PDF and photos
 gem "paperclip", "~> 5.0.0.beta1"
+
+gem "aws-sdk"
+
+# save config keys from deployment
+gem 'dotenv-rails', :groups => [:development, :test]
 
 
 
